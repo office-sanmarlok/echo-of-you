@@ -1,0 +1,246 @@
+# Echo of You - Story Flowchart
+
+## 全体構造
+
+```mermaid
+graph TB
+    Start([ゲーム開始]) --> Prologue[プロローグ<br/>学園とLOG部の紹介]
+    Prologue --> CharSelect{キャラクター選択}
+    
+    %% 上編 - P.mem内の記憶偽造世界
+    CharSelect -->|選択| Route[選択キャラルート<br/>※P.mem内の偽造記憶]
+    
+    Route --> Info[情報収集<br/>・悩み/コンプレックス<br/>・好物<br/>・昔の思い出]
+    Info --> Confess{告白イベント<br/>※全て偽造}
+    
+    Confess -->|成功| CheckComplete{全員攻略済み？}
+    Confess -->|失敗・リトライ| Confess
+    
+    CheckComplete -->|未攻略キャラあり| CharSelect
+    CheckComplete -->|全員攻略完了| Epilogue1[上編エピローグ<br/>実は全て記憶偽造だった<br/>偽ユウと少女の会話]
+    
+    %% 中編へ - 現実世界
+    Epilogue1 --> MiddleReveal[中編開始<br/>現実世界へ]
+    MiddleReveal --> MiddleStart[偽記憶に基づき<br/>本物のユウと女子3人が合宿へ]
+    MiddleStart --> Mansion[洋館到着<br/>本物のユウが違和感]
+    Mansion --> Inconsistency[記憶の不一致発覚]
+    Inconsistency --> Basement[地下室へ]
+    Basement --> DoorClose[本物のユウ締め出し<br/>女子3人のみ閉じ込め]
+    DoorClose --> GhostLog[ゴーストログ転送<br/>女子3人へ]
+    GhostLog --> Violence{暴力性の発現}
+    
+    Violence --> ThreeGirlsDead[女子3人死亡<br/>本物のユウは生存]
+    
+    %% 下編へ（中編の結果を受けて）
+    ThreeGirlsDead --> LowerStart[下編開始<br/>合宿後・偽ユウ視点]
+    LowerStart --> MemoryLoss[少女の記憶喪失<br/>（忘れたふり）]
+    MemoryLoss --> ShoujoRoute[少女攻略開始<br/>※上編と同じシステム]
+    
+    ShoujoRoute --> ShoujoInfo[情報収集<br/>・起源を知らない<br/>・孤独感<br/>・記憶の認識<br/>・書き換え権限<br/>・分裂の感覚]
+    ShoujoInfo --> TruthEvent{真実開示イベント<br/>※告白イベントに相当}
+    
+    TruthEvent -->|必須情報5つ収集| Confrontation[少女への真実の突きつけ]
+    TruthEvent -->|情報不足| ShoujoInfo
+    
+    Confrontation --> ShoujoBreakdown[少女の精神崩壊]
+    
+    ShoujoBreakdown --> AtsukoDeath[アツコが少女を射殺]
+    AtsukoDeath --> YuDeath[アツコが偽ユウも射殺]
+    YuDeath --> RealWorld[現実世界へ<br/>本物のユウ覚醒]
+    RealWorld --> PmemStop[P.mem全世界停止]
+    PmemStop --> FinalEnd[一年後<br/>ユウの回想で終了]
+    
+    style Start fill:#f9f,stroke:#333,stroke-width:4px
+    style FinalEnd fill:#9f9,stroke:#333,stroke-width:2px
+    style ThreeGirlsDead fill:#f66,stroke:#333,stroke-width:2px
+```
+
+## 詳細フロー：上編（全員攻略システム）
+
+```mermaid
+graph TB
+    subgraph "上編 - 攻略システム"
+        Start[新規ゲーム] --> Prologue[プロローグ]
+        Prologue --> CharSelect{キャラクター選択}
+        
+        CharSelect -->|1人目| FirstRoute[1人目ルート]
+        CharSelect -->|2人目| SecondRoute[2人目ルート]
+        CharSelect -->|3人目| ThirdRoute[3人目ルート]
+        
+        FirstRoute --> FirstConfess{告白イベント}
+        FirstConfess -->|成功| BackToSelect1[攻略対象選択へ戻る]
+        FirstConfess -->|失敗| FirstConfess
+        
+        BackToSelect1 --> CharSelect
+        
+        SecondRoute --> SecondConfess{告白イベント}
+        SecondConfess -->|成功| BackToSelect2[攻略対象選択へ戻る]
+        SecondConfess -->|失敗| SecondConfess
+        
+        BackToSelect2 --> CharSelect
+        
+        ThirdRoute --> ThirdConfess{告白イベント}
+        ThirdConfess -->|成功| AllComplete[全員攻略完了]
+        ThirdConfess -->|失敗| ThirdConfess
+        
+        AllComplete --> UpperEpilogue[上編エピローグ<br/>偽ユウと少女]
+        UpperEpilogue --> ToMiddle[中編へ]
+    end
+```
+
+## 詳細フロー：個別ルート内部（例：キョウコ）
+
+```mermaid
+graph TB
+    subgraph "キョウコルート詳細"
+        K_Start[ルート開始] --> K_Session1[下校セッション]
+        
+        K_Session1 --> K_Topic{話題選択}
+        K_Topic --> K_Conv{会話分岐}
+        K_Conv -->|正解選択| K_Info[必須情報獲得]
+        K_Conv -->|不正解| K_NoInfo[情報なし]
+        
+        K_Info --> K_Check{必須情報<br/>3つ揃った？}
+        K_NoInfo --> K_Check
+        
+        K_Check -->|未完| K_Session1
+        K_Check -->|完了| K_ConfessEvent[告白イベント]
+        
+        K_ConfessEvent --> K_Result{成功判定}
+        K_Result -->|成功| K_Success[攻略完了<br/>次キャラへ]
+        K_Result -->|失敗| K_Retry[リトライ]
+        
+        K_Retry --> K_ConfessEvent
+    end
+```
+
+## 詳細フロー：中編（合宿編）
+
+```mermaid
+graph LR
+    subgraph "中編 - 洋館の惨劇"
+        M_Start[3人のルート完了] --> M_Trigger[合宿の提案<br/>偽記憶による]
+        M_Trigger --> M_Travel[洋館への移動]
+        M_Travel --> M_Arrive[到着・違和感]
+        
+        M_Arrive --> M_Split{階層選択}
+        M_Split -->|3階| M_Kyoko[キョウコと探索]
+        M_Split -->|2階| M_Luna[ルナと探索]
+        M_Split -->|1階| M_Honoka[ホノカと探索]
+        
+        M_Kyoko --> M_Strange1[記憶の齟齬1]
+        M_Luna --> M_Strange2[記憶の齟齬2]
+        M_Honoka --> M_Strange3[記憶の齟齬3]
+        
+        M_Strange1 --> M_Beep
+        M_Strange2 --> M_Beep
+        M_Strange3 --> M_Beep
+        
+        M_Beep[ビープ音発生] --> M_Basement[地下室へ向かう]
+        M_Basement --> M_Luna_Rush[ルナが先行]
+        M_Luna_Rush --> M_Door[ドアが閉まる<br/>ユウ締め出し]
+        
+        M_Door --> M_Ghost[ゴーストログ起動]
+        M_Ghost --> M_Violence[暴力性の発現]
+        
+        M_Violence --> M_Fight{殺し合い}
+        M_Fight --> M_Kyoko_Dead[キョウコ死亡]
+        M_Fight --> M_Luna_Dead[ルナ死亡]
+        M_Fight --> M_Honoka_Dead[ホノカ死亡]
+        
+        M_Kyoko_Dead --> M_AllDead
+        M_Luna_Dead --> M_AllDead
+        M_Honoka_Dead --> M_AllDead
+        
+        M_AllDead[全員死亡] --> M_Success[少女の計画成功]
+    end
+```
+
+## 詳細フロー：下編（少女攻略システム）
+
+```mermaid
+graph TB
+    subgraph "下編 - 少女攻略（上編と同じシステム）"
+        L_Start[偽ユウ視点] --> L_Prologue[下編プロローグ<br/>少女が記憶喪失のフリ]
+        L_Prologue --> L_Decision[攻略決意<br/>少女の正体を探る]
+        
+        L_Decision --> L_Sessions[会話セッション開始]
+        
+        L_Sessions --> L_Topic{話題選択}
+        L_Topic --> L_Conv{会話分岐}
+        L_Conv -->|正解選択| L_Info[必須情報獲得<br/>全5つ必要]
+        L_Conv -->|不正解| L_NoInfo[情報なし]
+        
+        L_Info --> L_Check{必須情報<br/>5つ揃った？}
+        L_NoInfo --> L_Check
+        
+        L_Check -->|未完| L_Sessions
+        L_Check -->|完了| L_TruthEvent[真実開示イベント<br/>※告白イベントに相当]
+        
+        L_TruthEvent --> L_Stages[段階的真実開示<br/>1.権限共有<br/>2.ゴーストログ発見<br/>3.アツコの記憶<br/>4.P.memの正体<br/>5.合宿の真実]
+        
+        L_Stages --> L_Breakdown[少女の精神崩壊]
+        L_Breakdown --> L_Epilogue[エピローグへ]
+        
+        L_Epilogue --> L_Shotgun[アツコ登場・射殺]
+        L_Shotgun --> L_RealWorld[現実世界・本物ユウ覚醒]
+        L_RealWorld --> L_End[P.mem停止・一年後]
+    end
+```
+
+## キーポイントとフラグ管理
+
+```mermaid
+graph LR
+    subgraph "重要フラグ"
+        F1[selected_character<br/>選択キャラ]
+        F2[essential_info_count<br/>必須情報数]
+        F3[confession_success<br/>告白成否]
+        F4[routes_completed<br/>完了ルート]
+        F5[truth_revealed<br/>真実発覚]
+        F6[final_choice<br/>最終選択]
+    end
+    
+    subgraph "分岐条件"
+        C1[必須情報3つ→告白可能]
+        C2[全ルート完了→エピローグ]
+        C3[告白成功→恋人エンド]
+        C4[ゴーストログ→暴力化]
+        C5[真実告発→精神崩壊]
+    end
+    
+    F1 --> C1
+    F2 --> C1
+    F3 --> C3
+    F4 --> C2
+    F5 --> C5
+```
+
+## エンディング一覧
+
+| エンディング名 | 条件 | 内容 |
+|------------|------|------|
+| 女子3人死亡 | 中編クリア | 少女の計画成功、女子3人死亡、本物のユウは生存 |
+| 最終エンド | 下編クリア | アツコが少女と偽ユウを射殺、本物のユウ覚醒、P.mem停止 |
+
+## ゲーム進行の重要ポイント
+
+1. **上編は全てP.mem内の記憶偽造**
+   - 偽ユウが各ヒロインのP.memに侵入して偽造記憶を植え付ける
+   - 告白イベントも全て偽造された記憶
+   - 3人全員の記憶偽造完了で上編エピローグへ
+
+2. **上編エピローグで記憶偽造が明かされる**
+   - プレイヤーが操作していた「ユウ」は偽物のAI
+   - 少女という黒幕の存在
+   - 合宿計画の仕込み完了
+
+3. **中編は現実世界での悲劇**
+   - 偽記憶を持った女子3人が本物のユウを合宿に誘う
+   - 本物のユウは締め出され、女子3人のみ死亡
+   - 少女の計画が成功
+
+4. **下編で全ての真実が明らかに**
+   - アツコと少女の正体（同一人物）
+   - P.memとエコーログの歴史
+   - アツコが少女と偽ユウを射殺して決着

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo of You - Web MVP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- タイトル画面 -->
+        <div id="title-screen" class="screen active">
+            <div class="title-container">
+                <h1 class="game-title">Echo of You</h1>
+                <p class="subtitle">記憶と現実が交錯する悲劇</p>
+                <div class="title-menu">
+                    <button class="title-btn" onclick="startNewGame()">New Game</button>
+                    <button class="title-btn" onclick="continueGame()">Continue</button>
+                    <button class="title-btn" onclick="showGallery()">Gallery</button>
+                    <button class="title-btn" onclick="showCredits()">Credits</button>
+                </div>
+                <div class="version">Ver 1.0 - Web Edition</div>
+            </div>
+        </div>
+        
+        <!-- メイン画面 -->
+        <div id="main-screen" class="screen">
+            <div id="text-box">
+                <div id="character-name"></div>
+                <div id="dialogue-text"></div>
+                <div id="choices-container"></div>
+            </div>
+            
+            <!-- サイドバー -->
+            <div id="sidebar">
+                <button id="flowchart-btn" title="フローチャート">📊</button>
+                <button id="info-btn" title="情報タブ">📝</button>
+                <button id="save-btn" title="セーブ">💾</button>
+                <button id="load-btn" title="ロード">📂</button>
+                <button id="settings-btn" title="設定">⚙️</button>
+            </div>
+        </div>
+
+        <!-- フローチャート画面 -->
+        <div id="flowchart-screen" class="screen">
+            <div class="modal-header">
+                <h2>フローチャート</h2>
+                <button class="close-btn">✕</button>
+            </div>
+            <div id="flowchart-container">
+                <svg id="flowchart-svg" width="800" height="600"></svg>
+            </div>
+            <div id="node-info"></div>
+        </div>
+
+        <!-- 情報タブ画面 -->
+        <div id="info-screen" class="screen">
+            <div class="modal-header">
+                <h2>情報タブ</h2>
+                <button class="close-btn">✕</button>
+            </div>
+            <div id="character-tabs">
+                <button class="tab-btn" data-character="kyoko">キョウコ</button>
+                <button class="tab-btn" data-character="honoka">ホノカ</button>
+                <button class="tab-btn" data-character="luna">ルナ</button>
+                <button class="tab-btn" data-character="shoujo">少女</button>
+            </div>
+            <div id="info-content"></div>
+        </div>
+
+        <!-- セーブ/ロード画面 -->
+        <div id="save-screen" class="screen">
+            <div class="modal-header">
+                <h2 id="save-title">セーブ</h2>
+                <button class="close-btn">✕</button>
+            </div>
+            <div id="save-slots"></div>
+        </div>
+
+        <!-- 設定画面 -->
+        <div id="settings-screen" class="screen">
+            <div class="modal-header">
+                <h2>設定</h2>
+                <button class="close-btn">✕</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>テキスト速度</label>
+                    <input type="range" id="text-speed" min="1" max="100" value="50">
+                </div>
+                <div class="setting-item">
+                    <label>BGM音量</label>
+                    <input type="range" id="bgm-volume" min="0" max="100" value="50">
+                </div>
+                <div class="setting-item">
+                    <label>SE音量</label>
+                    <input type="range" id="se-volume" min="0" max="100" value="50">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 古いストーリーは読み込まない -->
+    <!-- <script src="story.js"></script> -->
+    <script src="story-v2.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
